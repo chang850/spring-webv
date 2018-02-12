@@ -1,0 +1,44 @@
+spring:
+      datasource:
+        url: jdbc:mysql://@db.address@/@db.name@?createDatabaseIfNotExist=true
+        username: @db.username@
+        password: @db.password@
+        data: classpath:/sample-data.sql
+#        dbcp2:
+#          validation-query: SELECT 1
+      jpa:
+        hibernate:
+          ddl-auto: create
+        properties:
+          hibernate.dialect : @hibernate.dialect@
+        open-in-view: false
+      jackson:
+          default-property-inclusion: non_null
+logging:
+      level:
+          com.rsupport.webviewer : trace
+          org.hibernate.SQL : debug
+          org.hibernate.type.descriptor.sql.BasicBinder : trace
+
+webviewer:
+      role : webdeveloper
+      project :
+          name : 윤창희
+          age : 10
+      team :
+          part : rc5x
+key:
+      chang : yunchahee
+
+flyway:
+      enabled: false
+      locations: classpath:db/migration
+server:
+  address: localhost
+  port: 8080
+
+
+
+
+
+

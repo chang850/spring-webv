@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<script type="text/javascript" src="/public/javascripts/html5.js"></script>
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+</head>
+	<body class="body-admin lang-ko" data-type="viewer">
+	<div id="waiting-room">
+		<div class="container waiting-room">
+			<div id="gateWebviewer">
+				<header>
+					<span class="logo">RemoteCall</span>
+					리모트콜 웹뷰어 시작
+				</header>
+				<p class="text-desc">
+					아래 URL에 접속한 후 번호를 입력하도록 안내해 주세요.
+				</p>
+				<div class="area-box">
+					<div class="upper"></div>
+					<div class="code"></div>
+				</div>
+
+				<p class="text-desc icon-or">
+					자동 연결 안내하기 : URL + 접속코드 복사
+				</p>
+				<div class="area-form">
+					<p class="accessCodeUrl"></p>
+					<button id="url-copy" type="button" class="copy-btn" data-clipboard-text="">copy</button>
+					<div class="tooltip tooltip-default" id="tooltipCopy">
+						클립보드로 복사 되었습니다.
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="gateBackground"></div>
+		<footer>
+			<button type="button" class="btn-beta-guide" id="btnBetaGuide">베타기능 이용안내</button>
+		</footer>
+	</div>
+
+	<div id="room">
+		<div class="consult-wrap">
+			<div class="request-remote-control-wrap clearfix">
+				<div class="header-group">
+					<button type="button" class="btn-close">종료하기</button>
+				</div>
+				<div class="title-group">
+					<h3>원격제어 시작하기</h3>
+					<div class="message-group">
+						<p>원격제어 요청 클릭 시 상대방의 PC를 보고 제어할 수 있습니다.</p>
+					</div>
+					<div class="button-group">
+						<button type="button" class="btn remote-control-request">원격제어 요청</button>
+					</div>
+				</div>
+			</div>
+			<div class="chat-group">
+				<div class="top-bar">
+					<h3 class="title"></h3>
+					<button type="button" class="btn-toggle"></button>
+				</div>
+				<div class="msg-container-base"></div>
+				<div class="input-group">
+					<span class="form-area"><textarea rows="3" cols="100" id="btn-chat-input" placeholder="Write your message here..."></textarea></span>
+					<span class="input-group-btn"><button type="button" id="btn-chat">전송</button></span>
+				</div>
+			</div>
+		</div>
+		<div class="webview"></div>
+
+		<!-- 로딩 창 -->
+		<div id="message-notice">
+			<div class="message">
+				<span class="loading"></span>
+				<span class="text"></span>
+			</div>
+		</div>
+
+		<!-- 종료 다이어로그 창 -->
+		<div id="exitDialog" class="modal custom-modal">
+			<div class="modal-content">
+				<div class="modal-header"></div>
+				<div class="modal-body">
+					<div class="message-group big"></div>
+				</div>
+				<div class="modal-footer">
+					<button id="disapprovedRemoteControl" type="button" class="btn modal-close confirm-check cancel">
+						아니오
+					</button>
+					<button id="downloadHostFile" type="button" class="btn modal-close confirm-check confirm">
+						예
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<footer>
+		</footer>
+	</div>
+
+
+
+	<div class="popup-modal">
+		<div id="popup-webviwer-beta" class="popup-modal-container">
+			<div class="popup-modal-body">
+				<strong class="title"><span class="hidden">웹뷰어 베타 기능<br>이용 안내</span></strong>
+				<p class="txt-notice">RemoteCall 웹뷰어 기능은 신기술로써 알서포트(주)가 연구중인 WebRTC와<br>
+					RemoteCall ASP 서비스와의 기술적 결합(또는 접목)을 검증하기 위해<br>
+					제공되는 Beta 기능입니다.<br><br>
+					이러한 관계로 웹뷰어는 사전 동의 없이 변경이나 중단이 이루어질 수 있으며,<br>
+					관련한 기술문의에 대한 답변 역시 제한적으로 제공됩니다.<br><br>
+					따라서 대 고객 대상의 전문적인 원격지원 계정이 추가로 필요하실 경우
+					정식 라이선스의 추가구매를 권장드리며,<br>
+					추가구매 문의는 영업 담당자 또는 070 - 7011 - 3900으로 주시기 바랍니다.</p>
+			</div>
+			<div class="popup-modal-foot">
+				<button type="button" class="btn-close">닫기</button>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+        var rc5xRegional = {
+            "rtctlConnInprogress" : "원격제어 연결 진행 중입니다.",
+            "chatInprogress" : "원격제어 동의 진행 중입니다.",
+            "chatInprogress2" : '<strong>{0}</strong>님과 채팅상담 연결 중입니다.',
+            "conInprogress" :"원격제어 연결 진행 중입니다.",
+            "chatJoin" : "{0}님이 입장했습니다.",
+            "chatLeft" : "{0}님이 퇴장하였습니다.",
+            "deny" : "{0}님이 원격제어 요청을 거절했습니다.",
+            "disableApply":"원격제어를 요청할 고객이 없습니다.",
+            "controllAbnormal":"마우스 키보드 제어 연결에 문제가 발생했습니다",
+            "remoteStart": "원격제어를 시작했습니다.",
+            "remoteRestart":"원격제어를 시작했습니다.",
+            "remotePause":"원격제어를 일시 중지했습니다.",
+            "monitorsAbnormal":"모니터 선택이 정상적으로 되지 않았습니다.",
+            "rtctlInfo" : "원격제어 요청 클릭 시 상대방의 PC를 보고 제어할 수 있습니다.",
+            "rtctlEnd" : "원격제어가 종료 되었습니다.",
+            "chatExit" : "대화를 종료하시겠습니까?",
+            "control" : "마우스/키보드 제어",
+            "fullscreen" : "전체화면",
+            "switchMonitor" : "화면선택",
+            "chatting" : "채팅",
+            "end" : "원격제어 종료",
+            "am" : "오전",
+            "pm" : "오후",
+            "accounter" : "상담원",
+            "customer" : "고객",
+            "agreeRemoteControl" : "원격제어 동의 진행 중입니다.",
+            "cancel" : "연결 취소",
+            "controlStart" : "원격제어를 시작했습니다.",
+            "notSupport" : "웹 뷰어를 이용할 수 없습니다.<br>[지원 OS 및 브라우저]<br>-OS : Windows 7 이상, Mac, Android, iOS <br>-Browser : Chrome",
+            "endQuestion" : "원격제어를 종료하시겠습니까?",
+            "endFullDisplay" : "전체화면을 종료하려면 ESC를 누르세요",
+            "monitorSelected" : "{0}번 모니터가 선택되었습니다.",
+            "enabledRemoteControl" : "원격제어가 가능합니다.",
+            "noLicense" : "라이선스가 존재하지 않아 서비스를 사용할 수 없습니다.",
+            "displayError" : "원격지의 화면을 가져올 수 없습니다.<br> 원격지의 상태를 확인해주세요.",
+            "disConnectedMqtt": "네트워크 연결 상태가 불안정하여 연결이 종료되었습니다. \n네트워크 연결 상태를 확인해 주세요.",
+            "exceedLicense":"허용된 라이선스(세션)를 초과하여 서비스를 사용할 수 없습니다.",
+            "lostMqtt": "일시적인 서버 접속 오류(Socket Error)가 발생하여 연결을 종료합니다. 재연결 하시기 바랍니다.",
+            "alreadyUseAccessCode": "이미 사용중인 접속번호 입니다. 다른 접속번호를 안내 받으시기 바랍니다."
+        };
+	</script>
+	<script type="text/javascript" src="/public/javascripts/jquery.min.js"></script>
+	<script type="text/javascript" src="/public/javascripts/rc5x.corona.start.min.js"></script>
+	</body>
+</html>

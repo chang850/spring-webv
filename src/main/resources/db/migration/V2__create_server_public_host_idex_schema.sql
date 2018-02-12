@@ -1,0 +1,1 @@
+create index idx_server_public on nt_server (public_host);
